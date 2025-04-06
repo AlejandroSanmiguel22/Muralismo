@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muralismo - Arte Urbano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@500;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/Muralismo/style.css">
+</head>
+<body>
+  <header>
+    <img src="img/logo.png" alt="Logo Muralismo" class="logo">
+    <div class="menu-toggle" id="menuToggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav id="mainNav">
+      <a href="#">Inicio</a>
+      <a href="#">Información</a>
+      <a href="#">Galería</a>
+      <a href="#">Interactúa</a>
+      <a href="#">Acerca de</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="contenido-texto">
+      <div class="arte-urbano">
+        <span>ARTE URBANO</span>
+      </div>
+      <h1>Muralismo</h1>
+    </div>
+    <div class="explora">
+      ↓ Explora
+    </div>
+  </section>
+
+  <script>
+    // JavaScript para el menú responsivo
+    document.getElementById('menuToggle').addEventListener('click', function() {
+      document.getElementById('mainNav').classList.toggle('active');
+    });
+  </script>
+</body>
+</html>
