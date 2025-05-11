@@ -70,7 +70,43 @@
     </div>
   </section>
   
+  <!-- Sección de Galería con carrusel -->
+<section class="galeria-seccion">
+  <h2 class="titulo-galeria">Galeria</h2>
   
+  <div class="carrusel-container">
+    <div class="carrusel-track">
+      <div class="carrusel-slide" data-index="0">
+        <img src="img/img1.png" alt="Imagen galería 1">
+      </div>
+      <div class="carrusel-slide" data-index="1">
+        <img src="img/img2.png" alt="Imagen galería 2">
+      </div>
+      <div class="carrusel-slide" data-index="2">
+        <img src="img/img3.png" alt="Imagen galería 3">
+      </div>
+      <div class="carrusel-slide" data-index="3">
+        <img src="img/img4.png" alt="Imagen galería 4">
+      </div>
+      <div class="carrusel-slide" data-index="4">
+        <img src="img/img5.png" alt="Imagen galería 5">
+      </div>
+    </div>
+    
+    <div class="carrusel-controles">
+      <button class="carrusel-btn prev">&#10094;</button>
+      
+      <div class="indicadores">
+      <span class="indicador active"></span>
+      <span class="indicador"></span>
+      <span class="indicador"></span>
+      <span class="indicador"></span>
+      <span class="indicador"></span>
+      </div>
+      <button class="carrusel-btn next">&#10095;</button>
+    </div>
+    </div>
+</section>
   
 
   <script>
@@ -78,6 +114,86 @@
     document.getElementById('menuToggle').addEventListener('click', function() {
       document.getElementById('mainNav').classList.toggle('active');
     });
+
+    // JavaScript para el carrusel de imágenes
+
+   document.addEventListener('DOMContentLoaded', function() {
+  // Elementos del carrusel
+  const slides = document.querySelectorAll('.carrusel-slide');
+  const prevBtn = document.querySelector('.prev');
+  const nextBtn = document.querySelector('.next');
+  const indicators = document.querySelectorAll('.indicador');
+  
+  let currentIndex = 0;
+  const totalSlides = slides.length;
+  
+  // Función para actualizar los data-index de los slides
+  function updateSlides() {
+    slides.forEach((slide, index) => {
+      // Calcular el nuevo índice relativo al slide actual
+      let newIndex = (index - currentIndex + totalSlides) % totalSlides;
+      slide.setAttribute('data-index', newIndex);
+    });
+    
+    // Actualizar indicadores activos
+    indicators.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentIndex);
+    });
+  }
+  
+  // Inicializar slides
+  updateSlides();
+  
+  // Evento para botón anterior
+  prevBtn.addEventListener('click', function() {
+    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+    updateSlides();
+  });
+  
+  // Evento para botón siguiente
+  nextBtn.addEventListener('click', function() {
+    currentIndex = (currentIndex + 1) % totalSlides;
+    updateSlides();
+  });
+  
+  // Eventos para los indicadores
+  indicators.forEach((dot, index) => {
+    dot.addEventListener('click', function() {
+      currentIndex = index;
+      updateSlides();
+    });
+  });
+  
+  // Auto-play (opcional)
+  let interval = setInterval(function() {
+    currentIndex = (currentIndex + 1) % totalSlides;
+    updateSlides();
+  }, 5000);
+  
+  // Detener auto-play cuando el usuario interactúa
+  const carrusel = document.querySelector('.carrusel-container');
+  carrusel.addEventListener('mouseenter', function() {
+    clearInterval(interval);
+  });
+  
+  carrusel.addEventListener('mouseleave', function() {
+    interval = setInterval(function() {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateSlides();
+    }, 5000);
+  });
+  
+  // Escuchar eventos de teclado para accesibilidad
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') {
+      currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      updateSlides();
+    } else if (e.key === 'ArrowRight') {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateSlides();
+    }
+  });
+});
   </script>
 </body>
 </html>
