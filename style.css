@@ -178,16 +178,7 @@ nav a:hover {
   background-color: #d4a851; /* Color dorado como en la imagen */
 }
 
-/* Línea inferior */
-.info-muralismo::after {
-  content: "";
-  position: absolute;
-  bottom: 80px;
-  left: 13%;
-  width: 70%;
-  height: 2px;
-  background-color: #d4a851; /* Color dorado como en la imagen */
-}
+
 
 .bloque.reverse {
   flex-direction: row-reverse;
@@ -484,15 +475,7 @@ p {
 
 
 /* Línea inferior */
-.galeria-seccion::after {
-  content: "";
-  position: absolute;
-  bottom: 30px;
-  left: 13%;
-  width: 70%;
-  height: 2px;
-  background-color: #d4a851; /* Color dorado como en la imagen */
-}
+
 
 .titulo-galeria {
   text-align: center;
@@ -694,4 +677,92 @@ p {
 
 .indicadores {
   margin: 0;
+}
+
+/* Seccion de mural */
+
+.interactua-seccion {
+  background-color: #103d24;
+  padding: 100px 40px;
+  position: relative;
+  text-align: center;
+}
+
+.linea-superior {
+  width: 70%;
+  height: 2px;
+  background-color: #d4a851;
+  margin: 0 auto 30px;
+  margin-bottom: 80px;
+  
+}
+
+.titulo-interactua {
+  color: #D1EAC3;
+  font-size: 50px;
+  margin-bottom: 40px;
+  font-weight: 600;
+}
+
+.muro-interactivo {
+  display: inline-block;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+
+
+.muro-interactivo img {
+  width: 100%;
+  max-width: 800px;
+  display: block;
+}
+
+.icono-pintura {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+}
+
+.icono-pintura img {
+  width: 100%;
+  height: auto;
+}
+
+#muralCanvas {
+  width: 100%;
+  max-width: 1200px;
+  height: auto;
+  aspect-ratio: 3 / 1; 
+  display: block;
+  background-image: url('img/mural.png');
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  cursor: crosshair;
+}
+
+
+.color-picker {
+  position: absolute;
+  bottom: 70px;
+  right: 20px;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.color-picker button {
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
 }

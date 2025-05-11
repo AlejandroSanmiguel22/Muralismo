@@ -37,6 +37,7 @@
   </section>
 
   <section class="info-muralismo">
+    
     <div class="bloque">
       <div class="contenido">
         <div class="numero">01</div>
@@ -72,6 +73,7 @@
   
   <!-- Sección de Galería con carrusel -->
 <section class="galeria-seccion">
+  <div class="linea-superior"></div>
   <h2 class="titulo-galeria">Galeria</h2>
   
   <div class="carrusel-container">
@@ -108,92 +110,137 @@
     </div>
 </section>
   
+<!-- Sección de Interactúa -->
 
-  <script>
-    // JavaScript para el menú responsivo
-    document.getElementById('menuToggle').addEventListener('click', function() {
+<section class="interactua-seccion">
+  <div class="linea-superior"></div>
+  <h2 class="titulo-interactua">Interactúa</h2>
+  <div class="muro-interactivo">
+    <canvas id="muralCanvas" width="1300" height="600"></canvas>
+    <div class="icono-pintura" id="colorToggle">
+      <img src="img/pincel-icono.png" alt="Ícono pintura">
+    </div>
+    <div class="color-picker" id="colorPicker">
+      <button style="background:red;" data-color="red"></button>
+      <button style="background:blue;" data-color="blue"></button>
+      <button style="background:green;" data-color="green"></button>
+      <button style="background:yellow;" data-color="yellow"></button>
+      <button style="background:black;" data-color="black"></button>
+      <button style="background:white;" data-color="white"></button>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // -------------------------------
+    // Menú responsive
+    // -------------------------------
+    document.getElementById('menuToggle').addEventListener('click', function () {
       document.getElementById('mainNav').classList.toggle('active');
     });
-
-    // JavaScript para el carrusel de imágenes
-
-   document.addEventListener('DOMContentLoaded', function() {
-  // Elementos del carrusel
-  const slides = document.querySelectorAll('.carrusel-slide');
-  const prevBtn = document.querySelector('.prev');
-  const nextBtn = document.querySelector('.next');
-  const indicators = document.querySelectorAll('.indicador');
   
-  let currentIndex = 0;
-  const totalSlides = slides.length;
+    // -------------------------------
+    // Carrusel
+    // -------------------------------
+    const slides = document.querySelectorAll('.carrusel-slide');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+    const indicators = document.querySelectorAll('.indicador');
   
-  // Función para actualizar los data-index de los slides
-  function updateSlides() {
-    slides.forEach((slide, index) => {
-      // Calcular el nuevo índice relativo al slide actual
-      let newIndex = (index - currentIndex + totalSlides) % totalSlides;
-      slide.setAttribute('data-index', newIndex);
-    });
-    
-    // Actualizar indicadores activos
-    indicators.forEach((dot, index) => {
-      dot.classList.toggle('active', index === currentIndex);
-    });
-  }
+    let currentIndex = 0;
+    const totalSlides = slides.length;
   
-  // Inicializar slides
-  updateSlides();
+    function updateSlides() {
+      slides.forEach((slide, index) => {
+        let newIndex = (index - currentIndex + totalSlides) % totalSlides;
+        slide.setAttribute('data-index', newIndex);
+      });
   
-  // Evento para botón anterior
-  prevBtn.addEventListener('click', function() {
-    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      indicators.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+  
     updateSlides();
-  });
   
-  // Evento para botón siguiente
-  nextBtn.addEventListener('click', function() {
-    currentIndex = (currentIndex + 1) % totalSlides;
-    updateSlides();
-  });
-  
-  // Eventos para los indicadores
-  indicators.forEach((dot, index) => {
-    dot.addEventListener('click', function() {
-      currentIndex = index;
+    prevBtn.addEventListener('click', function () {
+      currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
       updateSlides();
     });
-  });
   
-  // Auto-play (opcional)
-  let interval = setInterval(function() {
-    currentIndex = (currentIndex + 1) % totalSlides;
-    updateSlides();
-  }, 5000);
+    nextBtn.addEventListener('click', function () {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateSlides();
+    });
   
-  // Detener auto-play cuando el usuario interactúa
-  const carrusel = document.querySelector('.carrusel-container');
-  carrusel.addEventListener('mouseenter', function() {
-    clearInterval(interval);
-  });
+    indicators.forEach((dot, index) => {
+      dot.addEventListener('click', function () {
+        currentIndex = index;
+        updateSlides();
+      });
+    });
   
-  carrusel.addEventListener('mouseleave', function() {
-    interval = setInterval(function() {
+    let interval = setInterval(function () {
       currentIndex = (currentIndex + 1) % totalSlides;
       updateSlides();
     }, 5000);
-  });
   
-  // Escuchar eventos de teclado para accesibilidad
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowLeft') {
-      currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-      updateSlides();
-    } else if (e.key === 'ArrowRight') {
-      currentIndex = (currentIndex + 1) % totalSlides;
-      updateSlides();
+    const carrusel = document.querySelector('.carrusel-container');
+    carrusel.addEventListener('mouseenter', () => clearInterval(interval));
+    carrusel.addEventListener('mouseleave', () => {
+      interval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlides();
+      }, 5000);
+    });
+  
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        updateSlides();
+      } else if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlides();
+      }
+    });
+  
+    // -------------------------------
+    // Mural interactivo
+    // -------------------------------
+    const canvas = document.getElementById("muralCanvas");
+    const ctx = canvas.getContext("2d");
+    const colorPicker = document.getElementById("colorPicker");
+    const colorToggle = document.getElementById("colorToggle");
+    let drawing = false;
+    let currentColor = "black";
+  
+    canvas.addEventListener("mousedown", () => drawing = true);
+    canvas.addEventListener("mouseup", () => drawing = false);
+    canvas.addEventListener("mouseleave", () => drawing = false);
+    canvas.addEventListener("mousemove", draw);
+  
+    function draw(e) {
+      if (!drawing) return;
+      const rect = canvas.getBoundingClientRect();
+      ctx.fillStyle = currentColor;
+      ctx.beginPath();
+      ctx.arc(e.clientX - rect.left, e.clientY - rect.top, 5, 0, Math.PI * 2);
+      ctx.fill();
     }
+  
+    colorToggle.addEventListener("click", () => {
+      colorPicker.style.display = colorPicker.style.display === "flex" ? "none" : "flex";
+    });
+  
+    document.querySelectorAll("#colorPicker button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        currentColor = btn.getAttribute("data-color");
+      });
+    });
   });
-});
   </script>
+  
 </body>
 </html>
