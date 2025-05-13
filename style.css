@@ -733,10 +733,8 @@ p {
 }
 
 #muralCanvas {
-  width: 100%;
-  max-width: 1200px;
-  height: auto;
-  aspect-ratio: 3 / 1; 
+  max-width: 100%;
+  aspect-ratio: 3 / 1;
   display: block;
   background-image: url('img/mural.png');
   background-size: cover;
@@ -745,6 +743,7 @@ p {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   cursor: crosshair;
 }
+
 
 
 .color-picker {
@@ -766,3 +765,64 @@ p {
   border-radius: 50%;
   cursor: pointer;
 }
+
+.controles {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.botonesdibujo {
+  padding: 8px 14px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #A7CC02;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.botonesdibujo:hover {
+  background-color: #8fb800;
+}
+
+.icono-color img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.icono-color img:hover {
+  transform: scale(1.1);
+}
+
+.slider-grosor {
+  width: 150px;
+  cursor: pointer;
+  background-color: transparent;
+}
+.icono-color {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: #A7CC02; /* verde */
+  border-radius: 50%;
+  padding: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+}
+
+.icono-color input[type="color"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+

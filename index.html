@@ -111,25 +111,26 @@
 </section>
   
 <!-- Sección de Interactúa -->
-
 <section class="interactua-seccion">
   <div class="linea-superior"></div>
   <h2 class="titulo-interactua">Interactúa</h2>
+
   <div class="muro-interactivo">
     <canvas id="muralCanvas" width="1300" height="600"></canvas>
-    <div class="icono-pintura" id="colorToggle">
-      <img src="img/pincel-icono.png" alt="Ícono pintura">
-    </div>
-    <div class="color-picker" id="colorPicker">
-      <button style="background:red;" data-color="red"></button>
-      <button style="background:blue;" data-color="blue"></button>
-      <button style="background:green;" data-color="green"></button>
-      <button style="background:yellow;" data-color="yellow"></button>
-      <button style="background:black;" data-color="black"></button>
-      <button style="background:white;" data-color="white"></button>
+
+    <div class="controles">
+      <button class="botonesdibujo" id="borrar">Borrar lienzo</button>
+
+      <label class="icono-color">
+        <img src="img/pincel-icono.png" alt="Selector de color" id="colorIcon">
+        <input type="color" id="colorSelector">
+      </label>
+
+      <input type="range" id="grosorSelector" min="1" max="20" value="3" class="slider-grosor">
     </div>
   </div>
 </section>
+
 
 
 <script>
@@ -211,34 +212,52 @@
     // -------------------------------
     const canvas = document.getElementById("muralCanvas");
     const ctx = canvas.getContext("2d");
-    const colorPicker = document.getElementById("colorPicker");
-    const colorToggle = document.getElementById("colorToggle");
-    let drawing = false;
-    let currentColor = "black";
-  
-    canvas.addEventListener("mousedown", () => drawing = true);
-    canvas.addEventListener("mouseup", () => drawing = false);
-    canvas.addEventListener("mouseleave", () => drawing = false);
-    canvas.addEventListener("mousemove", draw);
-  
-    function draw(e) {
-      if (!drawing) return;
-      const rect = canvas.getBoundingClientRect();
-      ctx.fillStyle = currentColor;
+    const colorPicker = document.getElementById("colorSelector");
+    const grosorSelector = document.getElementById("grosorSelector");
+    const borrarBtn = document.getElementById("borrar");
+
+    let isDrawing = false;
+    let colorActual = colorPicker.value;
+    let grosorActual = grosorSelector.value;
+
+    colorPicker.addEventListener("input", () => {
+      colorActual = colorPicker.value;
+    });
+
+    grosorSelector.addEventListener("input", () => {
+      grosorActual = grosorSelector.value;
+    });
+
+    canvas.addEventListener("mousedown", (e) => {
+      isDrawing = true;
       ctx.beginPath();
-      ctx.arc(e.clientX - rect.left, e.clientY - rect.top, 5, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  
-    colorToggle.addEventListener("click", () => {
-      colorPicker.style.display = colorPicker.style.display === "flex" ? "none" : "flex";
+      ctx.moveTo(e.offsetX, e.offsetY);
     });
-  
-    document.querySelectorAll("#colorPicker button").forEach(btn => {
-      btn.addEventListener("click", () => {
-        currentColor = btn.getAttribute("data-color");
-      });
+
+    canvas.addEventListener("mouseup", () => {
+      isDrawing = false;
+      ctx.beginPath();
     });
+
+    canvas.addEventListener("mousemove", (e) => {
+      if (!isDrawing) return;
+    
+      ctx.strokeStyle = colorActual;
+      ctx.lineWidth = grosorActual;
+      ctx.lineCap = "round";
+    
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(e.offsetX, e.offsetY);
+    });
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+
+    borrarBtn.addEventListener("click", () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
   });
   </script>
   
